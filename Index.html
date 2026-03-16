@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RentalNube — Acceso Seguro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0c10;
+      --surface: #12151c;
+      --surface2: #1a1e28;
+      --border: rgba(255,255,255,0.07);
+      --accent: #4f8ef7;
+      --accent2: #a78bfa;
+      --accent3: #34d399;
+      --text: #e8ecf4;
+      --muted: #6b7280;
+      --danger: #f87171;
+      --warn: #f59e0b;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+
+    .orb { position:fixed; border-radius:50%; filter:blur(80px); opacity:0.10; pointer-events:none; animation:drift 12s ease-in-out infinite alternate; }
+    .orb1 { width:500px;height:500px;background:var(--accent);top:-150px;left:-150px; }
+    .orb2 { width:400px;height:400px;background:var(--accent2);bottom:-100px;right:-100px;animation-delay:-4s; }
+    .orb3 { width:300px;height:300px;background:var(--accent3);top:50%;left:50%;animation-delay:-8s; }
+    @keyframes drift { from{transform:translate(0,0) scale(1)} to{transform:translate(30px,20px) scale(1.08)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+    /* LOGIN */
+    #loginPage { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:2rem; }
+    .login-card { background:var(--surface); border:1px solid var(--border); border-radius:24px; padding:3rem; width:100%; max-width:420px; box-shadow:0 40px 80px rgba(0,0,0,.5); animation:fadeUp .6s ease both; }
+    .login-logo { display:flex;align-items:center;gap:10px;margin-bottom:2rem; }
+    .login-logo .icon { width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px; }
+    .login-logo span { font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800; }
+    .login-card h2 { font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700;margin-bottom:.4rem; }
+    .login-card > p { color:var(--muted);font-size:.9rem;margin-bottom:2rem; }
+
+    .field { margin-bottom:1.2rem; }
+    .field label { display:block;font-size:.78rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.45rem; }
+    .field input,.field select {
+      width:100%; background:var(--bg); border:1px solid var(--border); border-radius:12px;
+      padding:.8rem 1rem; color:var(--text); font-family:'DM Sans',sans-serif; font-size:.92rem;
+      transition:border-color .2s,box-shadow .2s; outline:none;
+    }
+    .field input:focus,.field select:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(79,142,247,.15); }
+    .field select option { background:var(--bg); }
+
+    .btn-primary { width:100%;padding:.9rem;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#fff;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .15s; }
+    .btn-primary:hover { opacity:.9;transform:translateY(-1px); }
+    .error-msg { color:var(--danger);font-size:.85rem;margin-top:.8rem;display:none;text-align:center; }
+
+    /* NAVBAR */
+    .navbar { display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(10,12,16,.88);backdrop-filter:blur(16px);position:sticky;top:0;z-index:100;gap:.6rem;flex-wrap:wrap; }
+    .nav-logo { display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800; }
+    .nav-logo .icon { width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px; }
+    .nav-right { display:flex;align-items:center;gap:.7rem;flex-wrap:wrap; }
+    .user-badge { display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:50px;padding:5px 14px 5px 5px;font-size:.85rem; }
+    .avatar { width:28px;height:28px;background:linear-gradient(135deg,var(--accent3),var(--accent));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700; }
+    .btn-nav { background:none;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 14px;font-size:.8rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif; }
+    .btn-nav:hover { border-color:var(--accent);color:var(--accent); }
+    .btn-nav.danger:hover { border-color:var(--danger);color:var(--danger); }
+    .btn-nav.active { background:var(--accent);border-color:var(--accent);color:#fff; }
+
+    /* TABS */
+    #dashPage { display:none;min-height:100vh;flex-direction:column;animation:fadeUp .5s ease both; }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+
+    /* MAIN */
+    .main { flex:1;padding:2rem;max-width:1200px;margin:0 auto;width:100%; }
+    .page-header { display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.8rem;flex-wrap:wrap;gap:1rem; }
+    .page-header h1 { font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800; }
+
+    /* STATS */
+    .stats { display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin-bottom:2rem; }
+    .stat-card { background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.2rem; }
+    .s-label { font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em; }
+    .s-val { font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:700;margin-top:4px; }
+
+    /* TOOLBAR */
+    .toolbar { display:flex;gap:.8rem;margin-bottom:1.4rem;flex-wrap:wrap; }
+    .search-wrap { position:relative;flex:1;min-width:200px; }
+    .search-wrap input { width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem 1rem .7rem 2.5rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s; }
+    .search-wrap input:focus { border-color:var(--accent); }
+    .search-wrap .s-icon { position:absolute;left:.85rem;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none; }
+    .filters { display:flex;gap:.5rem;flex-wrap:wrap;align-items:center; }
+    .filter-btn { background:none;border:1px solid var(--border);color:var(--muted);border-radius:50px;padding:5px 14px;font-size:.79rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif; }
+    .filter-btn.active,.filter-btn:hover { background:var(--accent);border-color:var(--accent);color:#fff; }
+
+    /* LINKS GRID */
+    .links-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem; }
+    .link-card { background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem;cursor:pointer;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.8rem;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden; }
+    .link-card:hover { transform:translateY(-3px);border-color:rgba(79,142,247,.35);box-shadow:0 12px 30px rgba(0,0,0,.3); }
+    .card-icon { width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px; }
+    .card-title { font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem; }
+    .card-desc { font-size:.78rem;color:var(--muted);line-height:1.5; }
+    .card-footer { display:flex;align-items:center;justify-content:space-between;margin-top:auto; }
+    .card-tag { font-size:.7rem;padding:3px 10px;border-radius:50px;border:1px solid var(--border);color:var(--muted); }
+    .card-arrow { font-size:12px;color:var(--muted);transition:transform .2s,color .2s; }
+    .link-card:hover .card-arrow { transform:translate(3px,-3px);color:var(--accent); }
+    .card-del { position:absolute;top:.75rem;right:.75rem;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.2);color:var(--danger);border-radius:6px;padding:3px 7px;font-size:11px;cursor:pointer;opacity:0;transition:opacity .2s; }
+    .link-card:hover .card-del { opacity:1; }
+
+    .empty-state { text-align:center;padding:4rem;color:var(--muted);display:none; }
+    .empty-state .e-icon { font-size:3rem;margin-bottom:1rem; }
+
+    /* ADMIN */
+    .admin-grid { display:grid;grid-template-columns:1fr 1fr;gap:2rem; }
+    @media(max-width:720px){ .admin-grid{grid-template-columns:1fr;} }
+    .panel-card { background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.5rem; }
+    .panel-card h3 { font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:1rem; }
+    .divider { height:1px;background:var(--border);margin:1.2rem 0; }
+
+    .user-list { display:flex;flex-direction:column;gap:.6rem;margin-bottom:.5rem; }
+    .user-row { display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem; }
+    .user-info { display:flex;align-items:center;gap:.75rem; }
+    .user-avatar { width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem; }
+    .u-name { font-weight:500;font-size:.88rem; }
+    .u-role { font-size:.7rem;color:var(--muted); }
+    .badge-admin { color:var(--accent3);font-size:.68rem;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);border-radius:50px;padding:2px 8px; }
+    .badge-user { color:var(--warn);font-size:.68rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:50px;padding:2px 8px; }
+    .btn-del-u { background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;transition:color .2s;padding:0 4px; }
+    .btn-del-u:hover { color:var(--danger); }
+
+    .form-col { display:flex;flex-direction:column;gap:.8rem; }
+    .form-col .field { margin:0; }
+    .btn-sm { background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;color:#fff;font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;padding:.75rem;cursor:pointer;transition:opacity .2s;width:100%; }
+    .btn-sm:hover { opacity:.85; }
+    .msg-ok { color:var(--accent3);font-size:.82rem;margin-top:.3rem;display:none;text-align:center; }
+
+    /* MODAL */
+    .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;padding:2rem; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:480px;animation:fadeUp .3s ease both; }
+    .modal h3 { font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:1.4rem; }
+    .modal-actions { display:flex;gap:.8rem;margin-top:1.4rem;justify-content:flex-end; }
+    .btn-cancel { background:none;border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:8px 18px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s; }
+    .btn-cancel:hover { border-color:var(--muted);color:var(--text); }
+    .btn-add { background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;color:#fff;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;padding:8px 22px;cursor:pointer;transition:opacity .2s; }
+    .btn-add:hover { opacity:.85; }
+
+    .footer { text-align:center;padding:1.4rem;font-size:.75rem;color:var(--muted);border-top:1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div id="loginPage">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="icon">🏠</div>
+      <span>RentalNube</span>
+    </div>
+    <h2>Acceso seguro</h2>
+    <p>Introduce tus credenciales para continuar</p>
+    <div class="field"><label>Usuario</label><input type="text" id="inputUser" placeholder="Tu usuario" autocomplete="username"/></div>
+    <div class="field"><label>Contraseña</label><input type="password" id="inputPass" placeholder="••••••••" autocomplete="current-password"/></div>
+    <button class="btn-primary" onclick="doLogin()">Entrar →</button>
+    <div class="error-msg" id="errorMsg">❌ Usuario o contraseña incorrectos</div>
+  </div>
+</div>
+
+<!-- ══════════ DASHBOARD ══════════ -->
+<div id="dashPage">
+  <nav class="navbar">
+    <div class="nav-logo">
+      <div class="icon">🏠</div>
+      RentalNube
+    </div>
+    <div class="nav-right">
+      <button class="btn-nav active" id="tabLinksBtn" onclick="showTab('links')">🔗 Mis enlaces</button>
+      <button class="btn-nav" id="tabAdminBtn" onclick="showTab('admin')" style="display:none">⚙️ Administrar</button>
+      <div class="user-badge">
+        <div class="avatar" id="avatarInitial">C</div>
+        <span id="welcomeUser">Cristobal</span>
+      </div>
+      <button class="btn-nav danger" onclick="doLogout()">Salir</button>
+    </div>
+  </nav>
+
+  <!-- TAB ENLACES -->
+  <div class="tab-content active" id="tabLinks">
+    <div class="main">
+      <div class="page-header">
+        <h1>Mis enlaces ☁️</h1>
+        <button class="btn-add" onclick="openModal()">+ Añadir enlace</button>
+      </div>
+      <div class="stats">
+        <div class="stat-card"><div class="s-label">Total</div><div class="s-val" id="statTotal">0</div></div>
+        <div class="stat-card"><div class="s-label">Formularios</div><div class="s-val" id="statForm">0</div></div>
+        <div class="stat-card"><div class="s-label">Gestores</div><div class="s-val" id="statGest">0</div></div>
+        <div class="stat-card"><div class="s-label">Otros</div><div class="s-val" id="statOtros">0</div></div>
+      </div>
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="s-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Buscar enlace..." oninput="renderLinks()"/>
+        </div>
+        <div class="filters">
+          <button class="filter-btn active" onclick="setFilter('todos',this)">Todos</button>
+          <button class="filter-btn" onclick="setFilter('formularios',this)">Formularios</button>
+          <button class="filter-btn" onclick="setFilter('gestores',this)">Gestores</button>
+          <button class="filter-btn" onclick="setFilter('otros',this)">Otros</button>
+        </div>
+      </div>
+      <div class="links-grid" id="linksGrid"></div>
+      <div class="empty-state" id="emptyState">
+        <div class="e-icon">🔍</div>No se encontraron enlaces
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB ADMIN -->
+  <div class="tab-content" id="tabAdmin">
+    <div class="main">
+      <div class="page-header"><h1>⚙️ Administración</h1></div>
+      <div class="admin-grid">
+
+        <!-- Usuarios -->
+        <div class="panel-card">
+          <h3>👥 Usuarios registrados</h3>
+          <div class="user-list" id="userList"></div>
+          <div class="divider"></div>
+          <h3>➕ Crear usuario</h3>
+          <div class="form-col" style="margin-top:.8rem">
+            <div class="field"><label>Nombre de usuario</label><input type="text" id="newUsername" placeholder="nombre_usuario"/></div>
+            <div class="field"><label>Contraseña</label><input type="password" id="newPassword" placeholder="contraseña segura"/></div>
+            <div class="field">
+              <label>Rol</label>
+              <select id="newRole">
+                <option value="user">Usuario normal</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+            <button class="btn-sm" onclick="addUser()">Crear usuario</button>
+            <div class="msg-ok" id="userOk">✅ Usuario creado correctamente</div>
+          </div>
+        </div>
+
+        <!-- Añadir enlace desde admin -->
+        <div class="panel-card">
+          <h3>🔗 Añadir enlace</h3>
+          <div class="form-col" style="margin-top:.5rem">
+            <div class="field"><label>Nombre</label><input type="text" id="aName" placeholder="Nombre del enlace"/></div>
+            <div class="field"><label>URL</label><input type="url" id="aUrl" placeholder="https://..."/></div>
+            <div class="field"><label>Descripción</label><input type="text" id="aDesc" placeholder="Breve descripción"/></div>
+            <div class="field">
+              <label>Categoría</label>
+              <select id="aCat">
+                <option value="formularios">Formularios</option>
+                <option value="gestores">Gestores</option>
+                <option value="otros">Otros</option>
+              </select>
+            </div>
+            <div class="field"><label>Icono (emoji)</label><input type="text" id="aIcon" placeholder="📄" maxlength="2"/></div>
+            <button class="btn-sm" onclick="addLinkAdmin()">Guardar enlace</button>
+            <div class="msg-ok" id="linkOk">✅ Enlace añadido correctamente</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">RentalNube &copy; 2025 · Rental Holidays · Panel privado</div>
+</div>
+
+<!-- ══════════ MODAL ══════════ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>➕ Nuevo enlace</h3>
+    <div class="field"><label>Nombre</label><input type="text" id="mName" placeholder="Mi recurso"/></div>
+    <div class="field"><label>URL</label><input type="url" id="mUrl" placeholder="https://..."/></div>
+    <div class="field"><label>Descripción (opcional)</label><input type="text" id="mDesc" placeholder="Breve descripción"/></div>
+    <div class="field">
+      <label>Categoría</label>
+      <select id="mCat">
+        <option value="formularios">Formularios</option>
+        <option value="gestores">Gestores</option>
+        <option value="otros">Otros</option>
+      </select>
+    </div>
+    <div class="field"><label>Icono (emoji)</label><input type="text" id="mIcon" placeholder="📄" maxlength="2"/></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-add" onclick="addLinkModal()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   DATOS
+═══════════════════════════════════════ */
+let users = [
+  { id:1, username:'Cristobal', password:'82178295', role:'admin' }
+];
+let nextUserId = 2;
+
+const CAT_COLORS = { formularios:'#4f8ef7', gestores:'#a78bfa', otros:'#34d399' };
+
+let links = [
+  { id:1,  name:'Formulario Captación Catherine',     url:'https://rentalholidays.es/es/5286234/formulariocat',                                          desc:'Captación de propietarios · Catherine',      cat:'formularios', icon:'📋' },
+  { id:2,  name:'Formulario Captación Maria Vicente',  url:'https://rentalholidays.es/es/5286234/formulariocat',                                          desc:'Captación de propietarios · Maria Vicente',   cat:'formularios', icon:'📋' },
+  { id:3,  name:'Formulario Captación Maria Gascón',   url:'https://rentalholidays.es/es/5286264/formulariomg',                                           desc:'Captación de propietarios · Maria Gascón',   cat:'formularios', icon:'📋' },
+  { id:4,  name:'Calculadora Estudio de Mercado',      url:'https://rentalholidays.es/es/5301011/calculadora',                                            desc:'Herramienta de análisis y estudio de mercado',cat:'otros',       icon:'🧮' },
+  { id:5,  name:'Formulario de Limpieza',              url:'https://rentalholidays.es/es/5287705/formulariolimpieza',                                      desc:'Registro y control del servicio de limpieza', cat:'formularios', icon:'🧹' },
+  { id:6,  name:'Gestor Factura de Registro',          url:'https://rentalholidays.es/es/5311757/facturasinscripcion',                                     desc:'Gestión de facturas e inscripciones',          cat:'gestores',    icon:'🧾' },
+  { id:7,  name:'Gestor Calendarios Pago Clientes',    url:'https://rentalholidays.es/es/5311757/facturasinscripcion',                                     desc:'Control de calendarios y pagos de clientes',   cat:'gestores',    icon:'📅' },
+  { id:8,  name:'Encargo de Ventas',                   url:'https://rental-holidays.duckdns.org/venta-sin-exclusiva/EncargoVentasInexclusiva.html',        desc:'Encargo de ventas sin exclusiva',              cat:'gestores',    icon:'🏷️' },
+  { id:9,  name:'Ficha de Inmueble',                   url:'https://fichainmueble.duckdns.org:9000/formulario.html',                                       desc:'Formulario de ficha técnica del inmueble',     cat:'formularios', icon:'🏡' },
+  { id:10, name:'Contrato de Mediación',               url:'https://mediacion.duckdns.org/formulario.html',                                               desc:'Generación de contrato de mediación',          cat:'gestores',    icon:'📝' },
+];
+let nextId = 11;
+let currentFilter = 'todos';
+let currentUser   = null;
+
+/* ═══════════════════════════════════════
+   AUTH
+═══════════════════════════════════════ */
+function doLogin() {
+  const u = document.getElementById('inputUser').value.trim();
+  const p = document.getElementById('inputPass').value;
+  const found = users.find(x => x.username === u && x.password === p);
+  if (found) {
+    document.getElementById('errorMsg').style.display = 'none';
+    currentUser = found;
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('dashPage').style.display  = 'flex';
+    document.getElementById('welcomeUser').textContent  = found.username;
+    document.getElementById('avatarInitial').textContent = found.username[0].toUpperCase();
+    if (found.role === 'admin') {
+      document.getElementById('tabAdminBtn').style.display = 'inline-block';
+    }
+    showTab('links');
+  } else {
+    document.getElementById('errorMsg').style.display = 'block';
+    document.getElementById('inputPass').value = '';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ['inputPass','inputUser'].forEach(id =>
+    document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); })
+  );
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  });
+});
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('dashPage').style.display = 'none';
+  document.getElementById('loginPage').style.display = 'flex';
+  document.getElementById('inputPass').value = '';
+  document.getElementById('inputUser').value = '';
+  document.getElementById('tabAdminBtn').style.display = 'none';
+}
+
+/* ═══════════════════════════════════════
+   TABS
+═══════════════════════════════════════ */
+function showTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tabLinksBtn').classList.remove('active');
+  document.getElementById('tabAdminBtn').classList.remove('active');
+  if (tab === 'links') {
+    document.getElementById('tabLinks').classList.add('active');
+    document.getElementById('tabLinksBtn').classList.add('active');
+    renderLinks();
+  } else {
+    document.getElementById('tabAdmin').classList.add('active');
+    document.getElementById('tabAdminBtn').classList.add('active');
+    renderUsers();
+  }
+}
+
+/* ═══════════════════════════════════════
+   LINKS
+═══════════════════════════════════════ */
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLinks();
+}
+
+function renderLinks() {
+  const q = (document.getElementById('searchInput').value || '').toLowerCase();
+  const filtered = links.filter(l => {
+    const matchCat = currentFilter === 'todos' || l.cat === currentFilter;
+    const matchQ   = !q || l.name.toLowerCase().includes(q) || l.desc.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+
+  const grid  = document.getElementById('linksGrid');
+  const empty = document.getElementById('emptyState');
+  const isAdmin = currentUser && currentUser.role === 'admin';
+
+  if (!filtered.length) {
+    grid.innerHTML = ''; empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    grid.innerHTML = filtered.map(l => `
+      <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="link-card">
+        <div class="card-icon" style="background:${CAT_COLORS[l.cat]}22">${l.icon}</div>
+        ${isAdmin ? `<button class="card-del" onclick="delLink(event,${l.id})">✕ Eliminar</button>` : ''}
+        <div>
+          <div class="card-title">${l.name}</div>
+          <div class="card-desc">${l.desc}</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-tag">${l.cat}</span>
+          <span class="card-arrow">↗</span>
+        </div>
+      </a>
+    `).join('');
+  }
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById('statTotal').textContent  = links.length;
+  document.getElementById('statForm').textContent   = links.filter(l=>l.cat==='formularios').length;
+  document.getElementById('statGest').textContent   = links.filter(l=>l.cat==='gestores').length;
+  document.getElementById('statOtros').textContent  = links.filter(l=>l.cat==='otros').length;
+}
+
+function delLink(e, id) {
+  e.preventDefault(); e.stopPropagation();
+  if (confirm('¿Eliminar este enlace?')) { links = links.filter(l=>l.id!==id); renderLinks(); }
+}
+
+/* Modal */
+function openModal() { document.getElementById('modalOverlay').classList.add('open'); document.getElementById('mName').focus(); }
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  ['mName','mUrl','mDesc','mIcon'].forEach(id => document.getElementById(id).value='');
+}
+function addLinkModal() {
+  const name = document.getElementById('mName').value.trim();
+  const url  = document.getElementById('mUrl').value.trim();
+  if (!name || !url) { alert('El nombre y la URL son obligatorios'); return; }
+  links.push({ id:nextId++, name, url, desc:document.getElementById('mDesc').value.trim(),
+    cat:document.getElementById('mCat').value, icon:document.getElementById('mIcon').value.trim()||'🔗' });
+  closeModal(); renderLinks();
+}
+
+/* Admin: añadir enlace */
+function addLinkAdmin() {
+  const name = document.getElementById('aName').value.trim();
+  const url  = document.getElementById('aUrl').value.trim();
+  if (!name || !url) { alert('Nombre y URL son obligatorios'); return; }
+  links.push({ id:nextId++, name, url, desc:document.getElementById('aDesc').value.trim(),
+    cat:document.getElementById('aCat').value, icon:document.getElementById('aIcon').value.trim()||'🔗' });
+  ['aName','aUrl','aDesc','aIcon'].forEach(id => document.getElementById(id).value='');
+  const ok = document.getElementById('linkOk');
+  ok.style.display='block'; setTimeout(()=>ok.style.display='none',2500);
+}
+
+/* ═══════════════════════════════════════
+   USERS
+═══════════════════════════════════════ */
+function renderUsers() {
+  document.getElementById('userList').innerHTML = users.map(u => `
+    <div class="user-row">
+      <div class="user-info">
+        <div class="user-avatar">${u.username[0].toUpperCase()}</div>
+        <div>
+          <div class="u-name">${u.username}</div>
+          <div class="u-role">${u.role==='admin'?'Administrador':'Usuario'}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:.6rem">
+        <span class="${u.role==='admin'?'badge-admin':'badge-user'}">${u.role==='admin'?'Admin':'User'}</span>
+        ${u.id!==1 ? `<button class="btn-del-u" onclick="delUser(${u.id})" title="Eliminar">🗑️</button>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function addUser() {
+  const uname = document.getElementById('newUsername').value.trim();
+  const pass  = document.getElementById('newPassword').value;
+  const role  = document.getElementById('newRole').value;
+  if (!uname || !pass) { alert('Nombre y contraseña son obligatorios'); return; }
+  if (users.find(u=>u.username===uname)) { alert('Ese usuario ya existe'); return; }
+  users.push({ id:nextUserId++, username:uname, password:pass, role });
+  document.getElementById('newUsername').value='';
+  document.getElementById('newPassword').value='';
+  renderUsers();
+  const ok = document.getElementById('userOk');
+  ok.style.display='block'; setTimeout(()=>ok.style.display='none',2500);
+}
+
+function delUser(id) {
+  if (id===1) { alert('No puedes eliminar al administrador principal'); return; }
+  if (confirm('¿Eliminar este usuario?')) { users=users.filter(u=>u.id!==id); renderUsers(); }
+}
+</script>
+</body>
+</html>
