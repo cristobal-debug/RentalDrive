@@ -6,11 +6,7 @@
   <title>RentalNube — Acceso Seguro</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg:#0a0c10; --surface:#12151c; --surface2:#1a1e28;
-      --border:rgba(255,255,255,0.07); --accent:#4f8ef7; --accent2:#a78bfa;
-      --accent3:#34d399; --text:#e8ecf4; --muted:#6b7280; --danger:#f87171; --warn:#f59e0b;
-    }
+    :root{--bg:#0a0c10;--surface:#12151c;--surface2:#1a1e28;--border:rgba(255,255,255,0.07);--accent:#4f8ef7;--accent2:#a78bfa;--accent3:#34d399;--text:#e8ecf4;--muted:#6b7280;--danger:#f87171;--warn:#f59e0b;}
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
     .orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:.10;pointer-events:none;animation:drift 12s ease-in-out infinite alternate;}
@@ -34,6 +30,7 @@
     .login-logo span{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;}
     .login-card h2{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700;margin-bottom:.4rem;}
     .login-card>p{color:var(--muted);font-size:.9rem;margin-bottom:2rem;}
+
     .field{margin-bottom:1.2rem;}
     .field label{display:block;font-size:.78rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.45rem;}
     .field input,.field select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.92rem;transition:border-color .2s,box-shadow .2s;outline:none;}
@@ -80,7 +77,7 @@
     .filter-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:50px;padding:5px 14px;font-size:.79rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
     .filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
 
-    /* LINKS GRID */
+    /* LINKS */
     .links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;}
     .link-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem;cursor:pointer;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.8rem;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden;}
     .link-card:hover{transform:translateY(-3px);border-color:rgba(79,142,247,.35);box-shadow:0 12px 30px rgba(0,0,0,.3);}
@@ -102,10 +99,10 @@
     .panel-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.5rem;}
     .panel-card h3{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:1rem;}
     .divider{height:1px;background:var(--border);margin:1.2rem 0;}
-    .user-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:.5rem;}
+    .user-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:.5rem;max-height:300px;overflow-y:auto;}
     .user-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:.8rem 1rem;}
     .user-info{display:flex;align-items:center;gap:.75rem;}
-    .user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;}
+    .user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0;}
     .u-name{font-weight:500;font-size:.88rem;}
     .u-role{font-size:.7rem;color:var(--muted);}
     .badge-admin{color:var(--accent3);font-size:.68rem;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);border-radius:50px;padding:2px 8px;}
@@ -154,10 +151,10 @@
     </div>
     <h2>Acceso seguro</h2>
     <p>Introduce tus credenciales para continuar</p>
-    <div class="field"><label>Correo electrónico</label><input type="email" id="inputUser" placeholder="correo@ejemplo.com" autocomplete="username"/></div>
+    <div class="field"><label>Usuario</label><input type="text" id="inputUser" placeholder="Tu usuario" autocomplete="username"/></div>
     <div class="field"><label>Contraseña</label><input type="password" id="inputPass" placeholder="••••••••" autocomplete="current-password"/></div>
     <button class="btn-primary" id="btnLogin" onclick="doLogin()">Entrar →</button>
-    <div class="error-msg" id="errorMsg">❌ Correo o contraseña incorrectos</div>
+    <div class="error-msg" id="errorMsg">❌ Usuario o contraseña incorrectos</div>
   </div>
 </div>
 
@@ -217,16 +214,14 @@
       <div class="page-header"><h1>⚙️ Administración</h1></div>
       <div class="admin-grid">
 
-        <!-- Usuarios -->
         <div class="panel-card">
           <h3>👥 Usuarios registrados</h3>
           <div class="user-list" id="userList"><div style="color:var(--muted);font-size:.85rem">Cargando...</div></div>
           <div class="divider"></div>
           <h3>➕ Crear usuario</h3>
           <div class="form-col" style="margin-top:.8rem">
-            <div class="field"><label>Nombre para mostrar</label><input type="text" id="newDisplayName" placeholder="Nombre Apellido"/></div>
-            <div class="field"><label>Correo electrónico</label><input type="email" id="newEmail" placeholder="correo@ejemplo.com"/></div>
-            <div class="field"><label>Contraseña</label><input type="password" id="newPassword" placeholder="mínimo 6 caracteres"/></div>
+            <div class="field"><label>Nombre de usuario</label><input type="text" id="newUsername" placeholder="nombre_usuario"/></div>
+            <div class="field"><label>Contraseña</label><input type="password" id="newPassword" placeholder="contraseña segura"/></div>
             <div class="field">
               <label>Rol</label>
               <select id="newRole">
@@ -240,7 +235,6 @@
           </div>
         </div>
 
-        <!-- Añadir enlace -->
         <div class="panel-card">
           <h3>🔗 Añadir enlace</h3>
           <div class="form-col" style="margin-top:.5rem">
@@ -269,7 +263,7 @@
   <div class="footer">RentalNube &copy; 2025 · Rental Holidays · Panel privado</div>
 </div>
 
-<!-- MODAL AÑADIR ENLACE -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3>➕ Nuevo enlace</h3>
@@ -292,109 +286,107 @@
   </div>
 </div>
 
-<!-- FIREBASE SDKs -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, doc, setDoc, getDoc, getDocs, deleteDoc, onSnapshot, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp }            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, doc, setDoc, getDoc, getDocs, deleteDoc, onSnapshot, addDoc, serverTimestamp, query, where }
+                                     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA6z8s0vCy-JPfP8iLRcG2mfPSklkCHJTI",
-  authDomain: "rental-nube.firebaseapp.com",
-  projectId: "rental-nube",
-  storageBucket: "rental-nube.firebasestorage.app",
+  apiKey:            "AIzaSyA6z8s0vCy-JPfP8iLRcG2mfPSklkCHJTI",
+  authDomain:        "rental-nube.firebaseapp.com",
+  projectId:         "rental-nube",
+  storageBucket:     "rental-nube.firebasestorage.app",
   messagingSenderId: "176845367950",
-  appId: "1:176845367950:web:991407c059304cb6ac77df",
-  measurementId: "G-8ND9CN1P69"
+  appId:             "1:176845367950:web:991407c059304cb6ac77df"
 };
 
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
 
-/* ─── ADMIN EMAIL ─── */
-const ADMIN_EMAIL = "cristobal@rentalnube.com"; // email del admin principal
-
-/* ─── ENLACES INICIALES (se cargan solo si Firestore está vacío) ─── */
-const INITIAL_LINKS = [
-  { name:'Formulario Captación Catherine',     url:'https://rentalholidays.es/es/5286234/formulariocat',                                   desc:'Captación de propietarios · Catherine',       cat:'formularios', icon:'📋' },
-  { name:'Formulario Captación Maria Vicente',  url:'https://rentalholidays.es/es/5286234/formulariocat',                                   desc:'Captación de propietarios · Maria Vicente',   cat:'formularios', icon:'📋' },
-  { name:'Formulario Captación Maria Gascón',   url:'https://rentalholidays.es/es/5286264/formulariomg',                                    desc:'Captación de propietarios · Maria Gascón',   cat:'formularios', icon:'📋' },
-  { name:'Calculadora Estudio de Mercado',      url:'https://rentalholidays.es/es/5301011/calculadora',                                     desc:'Herramienta de análisis y estudio de mercado', cat:'otros',       icon:'🧮' },
-  { name:'Formulario de Limpieza',              url:'https://rentalholidays.es/es/5287705/formulariolimpieza',                              desc:'Registro y control del servicio de limpieza',  cat:'formularios', icon:'🧹' },
-  { name:'Gestor Factura de Registro',          url:'https://rentalholidays.es/es/5311757/facturasinscripcion',                             desc:'Gestión de facturas e inscripciones',           cat:'gestores',    icon:'🧾' },
-  { name:'Gestor Calendarios Pago Clientes',    url:'https://rentalholidays.es/es/5311757/facturasinscripcion',                             desc:'Control de calendarios y pagos de clientes',   cat:'gestores',    icon:'📅' },
-  { name:'Encargo de Ventas',                   url:'https://rental-holidays.duckdns.org/venta-sin-exclusiva/EncargoVentasInexclusiva.html', desc:'Encargo de ventas sin exclusiva',              cat:'gestores',    icon:'🏷️' },
-  { name:'Ficha de Inmueble',                   url:'https://fichainmueble.duckdns.org:9000/formulario.html',                               desc:'Formulario de ficha técnica del inmueble',     cat:'formularios', icon:'🏡' },
-  { name:'Contrato de Mediación',               url:'https://mediacion.duckdns.org/formulario.html',                                       desc:'Generación de contrato de mediación',           cat:'gestores',    icon:'📝' },
-];
-
+/* ══ COLORES ══ */
 const CAT_COLORS = { formularios:'#4f8ef7', gestores:'#a78bfa', otros:'#34d399' };
 
+/* ══ ENLACES INICIALES ══ */
+const INITIAL_LINKS = [
+  { name:'Formulario Captación Catherine',    url:'https://rentalholidays.es/es/5286234/formulariocat',                                    desc:'Captación de propietarios · Catherine',        cat:'formularios', icon:'📋' },
+  { name:'Formulario Captación Maria Vicente', url:'https://rentalholidays.es/es/5286234/formulariocat',                                   desc:'Captación de propietarios · Maria Vicente',    cat:'formularios', icon:'📋' },
+  { name:'Formulario Captación Maria Gascón',  url:'https://rentalholidays.es/es/5286264/formulariomg',                                    desc:'Captación de propietarios · Maria Gascón',    cat:'formularios', icon:'📋' },
+  { name:'Calculadora Estudio de Mercado',     url:'https://rentalholidays.es/es/5301011/calculadora',                                     desc:'Herramienta de análisis y estudio de mercado', cat:'otros',       icon:'🧮' },
+  { name:'Formulario de Limpieza',             url:'https://rentalholidays.es/es/5287705/formulariolimpieza',                              desc:'Registro y control del servicio de limpieza',  cat:'formularios', icon:'🧹' },
+  { name:'Gestor Factura de Registro',         url:'https://rentalholidays.es/es/5311757/facturasinscripcion',                             desc:'Gestión de facturas e inscripciones',           cat:'gestores',    icon:'🧾' },
+  { name:'Gestor Calendarios Pago Clientes',   url:'https://rentalholidays.es/es/5311757/facturasinscripcion',                             desc:'Control de calendarios y pagos de clientes',   cat:'gestores',    icon:'📅' },
+  { name:'Encargo de Ventas',                  url:'https://rental-holidays.duckdns.org/venta-sin-exclusiva/EncargoVentasInexclusiva.html', desc:'Encargo de ventas sin exclusiva',              cat:'gestores',    icon:'🏷️' },
+  { name:'Ficha de Inmueble',                  url:'https://fichainmueble.duckdns.org:9000/formulario.html',                               desc:'Formulario de ficha técnica del inmueble',     cat:'formularios', icon:'🏡' },
+  { name:'Contrato de Mediación',              url:'https://mediacion.duckdns.org/formulario.html',                                        desc:'Generación de contrato de mediación',           cat:'gestores',    icon:'📝' },
+];
+
+/* ══ ESTADO ══ */
 let allLinks      = [];
 let currentFilter = 'todos';
-let currentUser   = null;
-let isAdmin       = false;
+let currentUser   = null;   // { id, username, role }
 let unsubLinks    = null;
 
-/* ─── SEED INICIAL ─── */
-async function seedLinksIfEmpty() {
-  const snap = await getDocs(collection(db, 'links'));
-  if (snap.empty) {
+/* ══ INIT ══ */
+async function init() {
+  // Crear admin si no existe
+  const adminRef  = doc(db, 'users', 'cristobal');
+  const adminSnap = await getDoc(adminRef);
+  if (!adminSnap.exists()) {
+    await setDoc(adminRef, { username:'Cristobal', password:'82178295', role:'admin', createdAt: serverTimestamp() });
+  }
+  // Seed enlaces si Firestore está vacío
+  const linksSnap = await getDocs(collection(db, 'links'));
+  if (linksSnap.empty) {
     for (const l of INITIAL_LINKS) {
       await addDoc(collection(db, 'links'), { ...l, createdAt: serverTimestamp() });
     }
   }
-}
-
-/* ─── AUTH STATE ─── */
-onAuthStateChanged(auth, async user => {
   document.getElementById('appLoader').style.display = 'none';
-  if (user) {
-    currentUser = user;
-    const profileSnap = await getDoc(doc(db, 'users', user.uid));
-    isAdmin = profileSnap.exists() && profileSnap.data().role === 'admin';
-    document.getElementById('loginPage').style.display  = 'none';
-    document.getElementById('dashPage').style.display   = 'flex';
-    document.getElementById('welcomeUser').textContent  = user.displayName || user.email;
-    document.getElementById('avatarInitial').textContent = (user.displayName || user.email)[0].toUpperCase();
-    if (isAdmin) document.getElementById('tabAdminBtn').style.display = 'inline-block';
-    await seedLinksIfEmpty();
-    subscribeLinks();
-    showTab('links');
-  } else {
-    currentUser = null;
-    isAdmin     = false;
-    document.getElementById('loginPage').style.display = 'flex';
-    document.getElementById('dashPage').style.display  = 'none';
-    if (unsubLinks) { unsubLinks(); unsubLinks = null; }
-  }
-});
+  document.getElementById('loginPage').style.display = 'flex';
+}
+init();
 
-/* ─── LOGIN ─── */
+/* ══ LOGIN ══ */
 window.doLogin = async function() {
-  const email = document.getElementById('inputUser').value.trim();
-  const pass  = document.getElementById('inputPass').value;
-  const btn   = document.getElementById('btnLogin');
-  const err   = document.getElementById('errorMsg');
+  const username = document.getElementById('inputUser').value.trim();
+  const password = document.getElementById('inputPass').value;
+  const btn      = document.getElementById('btnLogin');
+  const err      = document.getElementById('errorMsg');
   err.style.display = 'none';
+  if (!username || !password) return;
   btn.disabled = true; btn.textContent = 'Entrando...';
   try {
-    await signInWithEmailAndPassword(auth, email, pass);
+    const q    = query(collection(db, 'users'), where('username', '==', username), where('password', '==', password));
+    const snap = await getDocs(q);
+    if (snap.empty) throw new Error('not found');
+    const userData = { id: snap.docs[0].id, ...snap.docs[0].data() };
+    currentUser = userData;
+    document.getElementById('loginPage').style.display  = 'none';
+    document.getElementById('dashPage').style.display   = 'flex';
+    document.getElementById('welcomeUser').textContent  = userData.username;
+    document.getElementById('avatarInitial').textContent = userData.username[0].toUpperCase();
+    if (userData.role === 'admin') document.getElementById('tabAdminBtn').style.display = 'inline-block';
+    subscribeLinks();
+    showTab('links');
   } catch(e) {
     err.style.display = 'block';
     btn.disabled = false; btn.textContent = 'Entrar →';
   }
 };
 
-window.doLogout = async function() {
-  await signOut(auth);
+window.doLogout = function() {
+  currentUser = null;
+  if (unsubLinks) { unsubLinks(); unsubLinks = null; }
+  document.getElementById('dashPage').style.display   = 'none';
+  document.getElementById('loginPage').style.display  = 'flex';
+  document.getElementById('inputPass').value          = '';
+  document.getElementById('inputUser').value          = '';
   document.getElementById('tabAdminBtn').style.display = 'none';
   document.getElementById('tabLinksBtn').classList.add('active');
   document.getElementById('tabAdminBtn').classList.remove('active');
 };
 
-/* ─── TABS ─── */
+/* ══ TABS ══ */
 window.showTab = function(tab) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.getElementById('tabLinksBtn').classList.remove('active');
@@ -409,7 +401,7 @@ window.showTab = function(tab) {
   }
 };
 
-/* ─── LINKS REALTIME ─── */
+/* ══ LINKS REALTIME ══ */
 function subscribeLinks() {
   if (unsubLinks) unsubLinks();
   unsubLinks = onSnapshot(collection(db, 'links'), snap => {
@@ -426,7 +418,7 @@ window.setFilter = function(f, btn) {
 };
 
 function renderLinks() {
-  const q = (document.getElementById('searchInput').value || '').toLowerCase();
+  const q        = (document.getElementById('searchInput').value || '').toLowerCase();
   const filtered = allLinks.filter(l => {
     const matchCat = currentFilter === 'todos' || l.cat === currentFilter;
     const matchQ   = !q || (l.name||'').toLowerCase().includes(q) || (l.desc||'').toLowerCase().includes(q);
@@ -434,13 +426,14 @@ function renderLinks() {
   });
   const grid  = document.getElementById('linksGrid');
   const empty = document.getElementById('emptyState');
+  const admin = currentUser && currentUser.role === 'admin';
   if (!filtered.length) { grid.innerHTML=''; empty.style.display='block'; }
   else {
-    empty.style.display='none';
+    empty.style.display = 'none';
     grid.innerHTML = filtered.map(l => `
       <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="link-card">
         <div class="card-icon" style="background:${CAT_COLORS[l.cat]||'#4f8ef7'}22">${l.icon||'🔗'}</div>
-        ${isAdmin ? `<button class="card-del" onclick="delLink(event,'${l.id}')">✕ Eliminar</button>` : ''}
+        ${admin ? `<button class="card-del" onclick="delLink(event,'${l.id}')">✕ Eliminar</button>` : ''}
         <div>
           <div class="card-title">${l.name}</div>
           <div class="card-desc">${l.desc||''}</div>
@@ -449,8 +442,7 @@ function renderLinks() {
           <span class="card-tag">${l.cat}</span>
           <span class="card-arrow">↗</span>
         </div>
-      </a>
-    `).join('');
+      </a>`).join('');
   }
   document.getElementById('statTotal').textContent  = allLinks.length;
   document.getElementById('statForm').textContent   = allLinks.filter(l=>l.cat==='formularios').length;
@@ -481,7 +473,6 @@ window.addLinkModal = async function() {
   } finally { btn.disabled=false; btn.textContent='Guardar'; }
 };
 
-/* Admin: añadir enlace */
 window.addLinkAdmin = async function() {
   const name = document.getElementById('aName').value.trim();
   const url  = document.getElementById('aUrl').value.trim();
@@ -495,25 +486,25 @@ window.addLinkAdmin = async function() {
     await addDoc(collection(db,'links'), { name, url, desc:document.getElementById('aDesc').value.trim(), cat:document.getElementById('aCat').value, icon:document.getElementById('aIcon').value.trim()||'🔗', createdAt:serverTimestamp() });
     ['aName','aUrl','aDesc','aIcon'].forEach(id=>document.getElementById(id).value='');
     ok.style.display='block'; setTimeout(()=>ok.style.display='none',3000);
-  } catch(e) { err.textContent='❌ Error: '+e.message; err.style.display='block'; }
+  } catch(e) { err.textContent='❌ Error al guardar'; err.style.display='block'; }
   finally { btn.disabled=false; btn.textContent='Guardar enlace'; }
 };
 
-/* ─── USERS ─── */
+/* ══ USERS ══ */
 async function loadUsers() {
   const snap = await getDocs(collection(db,'users'));
   const list = document.getElementById('userList');
-  if (snap.empty) { list.innerHTML='<div style="color:var(--muted);font-size:.85rem">No hay usuarios registrados</div>'; return; }
+  if (snap.empty) { list.innerHTML='<div style="color:var(--muted);font-size:.85rem">No hay usuarios</div>'; return; }
   list.innerHTML = snap.docs.map(d => {
-    const u = d.data();
-    const isMe = d.id === currentUser.uid;
+    const u    = d.data();
+    const isMe = d.id === currentUser.id;
     return `
       <div class="user-row">
         <div class="user-info">
-          <div class="user-avatar">${(u.displayName||u.email)[0].toUpperCase()}</div>
+          <div class="user-avatar">${u.username[0].toUpperCase()}</div>
           <div>
-            <div class="u-name">${u.displayName||'Sin nombre'}</div>
-            <div class="u-role">${u.email}</div>
+            <div class="u-name">${u.username}</div>
+            <div class="u-role">${u.role==='admin'?'Administrador':'Usuario'}</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:.6rem">
@@ -525,63 +516,39 @@ async function loadUsers() {
 }
 
 window.addUser = async function() {
-  const displayName = document.getElementById('newDisplayName').value.trim();
-  const email       = document.getElementById('newEmail').value.trim();
-  const password    = document.getElementById('newPassword').value;
-  const role        = document.getElementById('newRole').value;
-  const ok  = document.getElementById('userOk');
-  const err = document.getElementById('userErr');
+  const username = document.getElementById('newUsername').value.trim();
+  const password = document.getElementById('newPassword').value;
+  const role     = document.getElementById('newRole').value;
+  const ok       = document.getElementById('userOk');
+  const err      = document.getElementById('userErr');
   ok.style.display='none'; err.style.display='none';
-  if (!displayName || !email || !password) { err.textContent='❌ Todos los campos son obligatorios'; err.style.display='block'; return; }
-  if (password.length < 6) { err.textContent='❌ La contraseña debe tener al menos 6 caracteres'; err.style.display='block'; return; }
+  if (!username || !password) { err.textContent='❌ Usuario y contraseña son obligatorios'; err.style.display='block'; return; }
   const btn = document.getElementById('btnCreateUser');
   btn.disabled=true; btn.textContent='Creando...';
   try {
-    // Creamos el usuario en Auth con una app secundaria para no cerrar sesión
-    const { initializeApp: initApp2 } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-    const { getAuth: getAuth2, createUserWithEmailAndPassword: createUser2, updateProfile: updateProfile2 } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
-    const app2   = initApp2(firebaseConfig, 'secondary-' + Date.now());
-    const auth2  = getAuth2(app2);
-    const cred   = await createUser2(auth2, email, password);
-    await updateProfile2(cred.user, { displayName });
-    await setDoc(doc(db, 'users', cred.user.uid), { displayName, email, role, createdAt: serverTimestamp() });
-    await auth2.signOut();
-    ['newDisplayName','newEmail','newPassword'].forEach(id=>document.getElementById(id).value='');
+    // Verificar si ya existe
+    const q    = query(collection(db,'users'), where('username','==',username));
+    const snap = await getDocs(q);
+    if (!snap.empty) { err.textContent='❌ Ese usuario ya existe'; err.style.display='block'; return; }
+    const uid = username.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now();
+    await setDoc(doc(db,'users', uid), { username, password, role, createdAt: serverTimestamp() });
+    document.getElementById('newUsername').value='';
+    document.getElementById('newPassword').value='';
     ok.style.display='block'; setTimeout(()=>ok.style.display='none',3000);
     loadUsers();
-  } catch(e) {
-    let msg = e.message;
-    if (e.code==='auth/email-already-in-use') msg='Ese correo ya está registrado';
-    if (e.code==='auth/invalid-email') msg='El correo no es válido';
-    err.textContent='❌ '+msg; err.style.display='block';
-  }
+  } catch(e) { err.textContent='❌ Error al crear usuario'; err.style.display='block'; }
   finally { btn.disabled=false; btn.textContent='Crear usuario'; }
 };
 
-window.delUser = async function(uid) {
-  if (uid===currentUser.uid) { alert('No puedes eliminarte a ti mismo'); return; }
-  if (confirm('¿Eliminar este usuario de Firestore? (Su acceso quedará deshabilitado)')) {
-    await deleteDoc(doc(db,'users',uid));
-    loadUsers();
-  }
+window.delUser = async function(id) {
+  if (id === currentUser.id) { alert('No puedes eliminarte a ti mismo'); return; }
+  if (confirm('¿Eliminar este usuario?')) { await deleteDoc(doc(db,'users',id)); loadUsers(); }
 };
 
-/* ─── PRIMER ARRANQUE: crear perfil admin en Firestore si no existe ─── */
-onAuthStateChanged(auth, async user => {
-  if (user) {
-    const ref = doc(db, 'users', user.uid);
-    const snap = await getDoc(ref);
-    if (!snap.exists()) {
-      await setDoc(ref, { displayName: user.displayName||user.email, email: user.email, role:'admin', createdAt: serverTimestamp() });
-    }
-  }
-});
-
-/* ─── KEYBOARD ─── */
+/* ══ KEYBOARD ══ */
 document.getElementById('inputPass').addEventListener('keydown', e => { if(e.key==='Enter') window.doLogin(); });
 document.getElementById('inputUser').addEventListener('keydown', e => { if(e.key==='Enter') window.doLogin(); });
 document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target===document.getElementById('modalOverlay')) window.closeModal(); });
-
 </script>
 </body>
 </html>
