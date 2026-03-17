@@ -17,12 +17,10 @@
     @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* LOADER */
     #appLoader{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:1rem;}
     .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
     #appLoader p{color:var(--muted);font-size:.9rem;}
 
-    /* LOGIN */
     #loginPage{display:none;align-items:center;justify-content:center;min-height:100vh;padding:2rem;}
     .login-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:3rem;width:100%;max-width:420px;box-shadow:0 40px 80px rgba(0,0,0,.5);animation:fadeUp .6s ease both;}
     .login-logo{display:flex;align-items:center;gap:10px;margin-bottom:2rem;}
@@ -41,7 +39,6 @@
     .btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none;}
     .error-msg{color:var(--danger);font-size:.85rem;margin-top:.8rem;display:none;text-align:center;}
 
-    /* NAVBAR */
     .navbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:rgba(10,12,16,.88);backdrop-filter:blur(16px);position:sticky;top:0;z-index:100;gap:.6rem;flex-wrap:wrap;}
     .nav-logo{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;}
     .nav-logo .icon{width:32px;height:32px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
@@ -53,21 +50,18 @@
     .btn-nav.danger:hover{border-color:var(--danger);color:var(--danger);}
     .btn-nav.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 
-    /* DASHBOARD */
-    #dashPage{display:none;min-height:100vh;flex-direction:column;animation:fadeUp .5s ease both;}
+    #dashPage{display:none;min-height:100vh;flex-direction:column;}
     .tab-content{display:none;}
     .tab-content.active{display:block;}
     .main{flex:1;padding:2rem;max-width:1200px;margin:0 auto;width:100%;}
     .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.8rem;flex-wrap:wrap;gap:1rem;}
     .page-header h1{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;}
 
-    /* STATS */
     .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin-bottom:2rem;}
     .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.2rem;}
     .s-label{font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
     .s-val{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:700;margin-top:4px;}
 
-    /* TOOLBAR */
     .toolbar{display:flex;gap:.8rem;margin-bottom:1.4rem;flex-wrap:wrap;}
     .search-wrap{position:relative;flex:1;min-width:200px;}
     .search-wrap input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem 1rem .7rem 2.5rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s;}
@@ -77,23 +71,26 @@
     .filter-btn{background:none;border:1px solid var(--border);color:var(--muted);border-radius:50px;padding:5px 14px;font-size:.79rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
     .filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
 
-    /* LINKS */
     .links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;}
-    .link-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem;cursor:pointer;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.8rem;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden;}
+    .link-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.4rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:.8rem;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden;}
     .link-card:hover{transform:translateY(-3px);border-color:rgba(79,142,247,.35);box-shadow:0 12px 30px rgba(0,0,0,.3);}
-    .card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+    .card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
     .card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;}
     .card-desc{font-size:.78rem;color:var(--muted);line-height:1.5;}
     .card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto;}
     .card-tag{font-size:.7rem;padding:3px 10px;border-radius:50px;border:1px solid var(--border);color:var(--muted);}
-    .card-arrow{font-size:12px;color:var(--muted);transition:transform .2s,color .2s;}
+    .card-arrow{font-size:14px;color:var(--muted);transition:transform .2s,color .2s;text-decoration:none;}
     .link-card:hover .card-arrow{transform:translate(3px,-3px);color:var(--accent);}
-    .card-del{position:absolute;top:.75rem;right:.75rem;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.2);color:var(--danger);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;opacity:0;transition:opacity .2s;}
-    .link-card:hover .card-del{opacity:1;}
+    /* botones admin sobre la card */
+    .card-actions{position:absolute;top:.7rem;right:.7rem;display:flex;gap:.4rem;opacity:0;transition:opacity .2s;}
+    .link-card:hover .card-actions{opacity:1;}
+    .card-btn{border:none;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;}
+    .card-btn.edit{background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.3);color:var(--accent);}
+    .card-btn.del{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.2);color:var(--danger);}
+
     .empty-state{text-align:center;padding:4rem;color:var(--muted);display:none;}
     .empty-state .e-icon{font-size:3rem;margin-bottom:1rem;}
 
-    /* ADMIN */
     .admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
     @media(max-width:720px){.admin-grid{grid-template-columns:1fr;}}
     .panel-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.5rem;}
@@ -120,13 +117,14 @@
     /* MODAL */
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:200;padding:2rem;}
     .modal-overlay.open{display:flex;}
-    .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:480px;animation:fadeUp .3s ease both;}
+    .modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;width:100%;max-width:480px;animation:fadeUp .3s ease both;max-height:90vh;overflow-y:auto;}
     .modal h3{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:1.4rem;}
     .modal-actions{display:flex;gap:.8rem;margin-top:1.4rem;justify-content:flex-end;}
     .btn-cancel{background:none;border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:8px 18px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
     .btn-cancel:hover{border-color:var(--muted);color:var(--text);}
     .btn-add{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;color:#fff;font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;padding:8px 22px;cursor:pointer;transition:opacity .2s;}
     .btn-add:hover{opacity:.85;}
+    .btn-add:disabled{opacity:.6;cursor:not-allowed;}
     .footer{text-align:center;padding:1.4rem;font-size:.75rem;color:var(--muted);border-top:1px solid var(--border);}
   </style>
 </head>
@@ -136,7 +134,6 @@
 <div class="orb orb2"></div>
 <div class="orb orb3"></div>
 
-<!-- LOADER -->
 <div id="appLoader">
   <div class="spinner"></div>
   <p>Conectando...</p>
@@ -176,12 +173,11 @@
     </div>
   </nav>
 
-  <!-- TAB ENLACES -->
   <div class="tab-content active" id="tabLinks">
     <div class="main">
       <div class="page-header">
         <h1>Mis enlaces ☁️</h1>
-        <button class="btn-add" onclick="openModal()">+ Añadir enlace</button>
+        <button class="btn-add" id="btnOpenModal" onclick="openModal()">+ Añadir enlace</button>
       </div>
       <div class="stats">
         <div class="stat-card"><div class="s-label">Total</div><div class="s-val" id="statTotal">0</div></div>
@@ -208,12 +204,10 @@
     </div>
   </div>
 
-  <!-- TAB ADMIN -->
   <div class="tab-content" id="tabAdmin">
     <div class="main">
       <div class="page-header"><h1>⚙️ Administración</h1></div>
       <div class="admin-grid">
-
         <div class="panel-card">
           <h3>👥 Usuarios registrados</h3>
           <div class="user-list" id="userList"><div style="color:var(--muted);font-size:.85rem">Cargando...</div></div>
@@ -234,9 +228,8 @@
             <div class="msg-err" id="userErr"></div>
           </div>
         </div>
-
         <div class="panel-card">
-          <h3>🔗 Añadir enlace</h3>
+          <h3>🔗 Añadir enlace rápido</h3>
           <div class="form-col" style="margin-top:.5rem">
             <div class="field"><label>Nombre</label><input type="text" id="aName" placeholder="Nombre del enlace"/></div>
             <div class="field"><label>URL</label><input type="url" id="aUrl" placeholder="https://..."/></div>
@@ -255,7 +248,6 @@
             <div class="msg-err" id="linkErr"></div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -263,10 +255,10 @@
   <div class="footer">RentalNube &copy; 2025 · Rental Holidays · Panel privado</div>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL AÑADIR / EDITAR ENLACE -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <h3>➕ Nuevo enlace</h3>
+    <h3 id="modalTitle">➕ Nuevo enlace</h3>
     <div class="field"><label>Nombre</label><input type="text" id="mName" placeholder="Mi recurso"/></div>
     <div class="field"><label>URL</label><input type="url" id="mUrl" placeholder="https://..."/></div>
     <div class="field"><label>Descripción (opcional)</label><input type="text" id="mDesc" placeholder="Breve descripción"/></div>
@@ -281,15 +273,16 @@
     <div class="field"><label>Icono (emoji)</label><input type="text" id="mIcon" placeholder="📄" maxlength="2"/></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn-add" id="btnModalSave" onclick="addLinkModal()">Guardar</button>
+      <button class="btn-add" id="btnModalSave" onclick="saveLink()">Guardar</button>
     </div>
   </div>
 </div>
 
 <script type="module">
-import { initializeApp }            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc, setDoc, getDoc, getDocs, deleteDoc, onSnapshot, addDoc, serverTimestamp, query, where }
-                                     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, doc, setDoc, getDoc, getDocs, deleteDoc,
+         onSnapshot, addDoc, updateDoc, serverTimestamp, query, where }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey:            "AIzaSyA6z8s0vCy-JPfP8iLRcG2mfPSklkCHJTI",
@@ -303,10 +296,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db  = getFirestore(app);
 
-/* ══ COLORES ══ */
 const CAT_COLORS = { formularios:'#4f8ef7', gestores:'#a78bfa', otros:'#34d399' };
 
-/* ══ ENLACES INICIALES ══ */
 const INITIAL_LINKS = [
   { name:'Formulario Captación Catherine',    url:'https://rentalholidays.es/es/5286234/formulariocat',                                    desc:'Captación de propietarios · Catherine',        cat:'formularios', icon:'📋' },
   { name:'Formulario Captación Maria Vicente', url:'https://rentalholidays.es/es/5286234/formulariocat',                                   desc:'Captación de propietarios · Maria Vicente',    cat:'formularios', icon:'📋' },
@@ -314,7 +305,7 @@ const INITIAL_LINKS = [
   { name:'Calculadora Estudio de Mercado',     url:'https://rentalholidays.es/es/5301011/calculadora',                                     desc:'Herramienta de análisis y estudio de mercado', cat:'otros',       icon:'🧮' },
   { name:'Formulario de Limpieza',             url:'https://rentalholidays.es/es/5287705/formulariolimpieza',                              desc:'Registro y control del servicio de limpieza',  cat:'formularios', icon:'🧹' },
   { name:'Gestor Factura de Registro',         url:'https://rentalholidays.es/es/5311757/facturasinscripcion',                             desc:'Gestión de facturas e inscripciones',           cat:'gestores',    icon:'🧾' },
-  { name:'Gestor Calendarios Pago Clientes',   url:'https://rentalholidays.es/es/5311757/facturasinscripcion',                             desc:'Control de calendarios y pagos de clientes',   cat:'gestores',    icon:'📅' },
+  { name:'Gestor Calendarios Pago Clientes',   url:'https://rentalholidays.es/es/5311757/calendariospago',                                 desc:'Control de calendarios y pagos de clientes',   cat:'gestores',    icon:'📅' },
   { name:'Encargo de Ventas',                  url:'https://rental-holidays.duckdns.org/venta-sin-exclusiva/EncargoVentasInexclusiva.html', desc:'Encargo de ventas sin exclusiva',              cat:'gestores',    icon:'🏷️' },
   { name:'Ficha de Inmueble',                  url:'https://fichainmueble.duckdns.org:9000/formulario.html',                               desc:'Formulario de ficha técnica del inmueble',     cat:'formularios', icon:'🏡' },
   { name:'Contrato de Mediación',              url:'https://mediacion.duckdns.org/formulario.html',                                        desc:'Generación de contrato de mediación',           cat:'gestores',    icon:'📝' },
@@ -323,24 +314,25 @@ const INITIAL_LINKS = [
 /* ══ ESTADO ══ */
 let allLinks      = [];
 let currentFilter = 'todos';
-let currentUser   = null;   // { id, username, role }
+let currentUser   = null;
 let unsubLinks    = null;
+let editingId     = null; // id del enlace que se está editando (null = nuevo)
 
 /* ══ INIT ══ */
 async function init() {
-  // Crear admin si no existe
-  const adminRef  = doc(db, 'users', 'cristobal');
-  const adminSnap = await getDoc(adminRef);
-  if (!adminSnap.exists()) {
-    await setDoc(adminRef, { username:'Cristobal', password:'82178295', role:'admin', createdAt: serverTimestamp() });
-  }
-  // Seed enlaces si Firestore está vacío
-  const linksSnap = await getDocs(collection(db, 'links'));
-  if (linksSnap.empty) {
-    for (const l of INITIAL_LINKS) {
-      await addDoc(collection(db, 'links'), { ...l, createdAt: serverTimestamp() });
+  try {
+    const adminRef  = doc(db, 'users', 'cristobal');
+    const adminSnap = await getDoc(adminRef);
+    if (!adminSnap.exists()) {
+      await setDoc(adminRef, { username:'Cristobal', password:'82178295', role:'admin', createdAt: serverTimestamp() });
     }
-  }
+    const linksSnap = await getDocs(collection(db, 'links'));
+    if (linksSnap.empty) {
+      for (const l of INITIAL_LINKS) {
+        await addDoc(collection(db, 'links'), { ...l, createdAt: serverTimestamp() });
+      }
+    }
+  } catch(e) { console.warn('Init error:', e); }
   document.getElementById('appLoader').style.display = 'none';
   document.getElementById('loginPage').style.display = 'flex';
 }
@@ -356,16 +348,20 @@ window.doLogin = async function() {
   if (!username || !password) return;
   btn.disabled = true; btn.textContent = 'Entrando...';
   try {
-    const q    = query(collection(db, 'users'), where('username', '==', username), where('password', '==', password));
+    const q    = query(collection(db, 'users'), where('username','==',username), where('password','==',password));
     const snap = await getDocs(q);
     if (snap.empty) throw new Error('not found');
-    const userData = { id: snap.docs[0].id, ...snap.docs[0].data() };
-    currentUser = userData;
+    currentUser = { id: snap.docs[0].id, ...snap.docs[0].data() };
     document.getElementById('loginPage').style.display  = 'none';
     document.getElementById('dashPage').style.display   = 'flex';
-    document.getElementById('welcomeUser').textContent  = userData.username;
-    document.getElementById('avatarInitial').textContent = userData.username[0].toUpperCase();
-    if (userData.role === 'admin') document.getElementById('tabAdminBtn').style.display = 'inline-block';
+    document.getElementById('welcomeUser').textContent  = currentUser.username;
+    document.getElementById('avatarInitial').textContent = currentUser.username[0].toUpperCase();
+    if (currentUser.role === 'admin') {
+      document.getElementById('tabAdminBtn').style.display = 'inline-block';
+      document.getElementById('btnOpenModal').style.display = 'inline-block';
+    } else {
+      document.getElementById('btnOpenModal').style.display = 'none';
+    }
     subscribeLinks();
     showTab('links');
   } catch(e) {
@@ -377,10 +373,10 @@ window.doLogin = async function() {
 window.doLogout = function() {
   currentUser = null;
   if (unsubLinks) { unsubLinks(); unsubLinks = null; }
-  document.getElementById('dashPage').style.display   = 'none';
-  document.getElementById('loginPage').style.display  = 'flex';
-  document.getElementById('inputPass').value          = '';
-  document.getElementById('inputUser').value          = '';
+  document.getElementById('dashPage').style.display    = 'none';
+  document.getElementById('loginPage').style.display   = 'flex';
+  document.getElementById('inputPass').value           = '';
+  document.getElementById('inputUser').value           = '';
   document.getElementById('tabAdminBtn').style.display = 'none';
   document.getElementById('tabLinksBtn').classList.add('active');
   document.getElementById('tabAdminBtn').classList.remove('active');
@@ -401,10 +397,10 @@ window.showTab = function(tab) {
   }
 };
 
-/* ══ LINKS REALTIME ══ */
+/* ══ LINKS ══ */
 function subscribeLinks() {
   if (unsubLinks) unsubLinks();
-  unsubLinks = onSnapshot(collection(db, 'links'), snap => {
+  unsubLinks = onSnapshot(collection(db,'links'), snap => {
     allLinks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderLinks();
   });
@@ -427,22 +423,29 @@ function renderLinks() {
   const grid  = document.getElementById('linksGrid');
   const empty = document.getElementById('emptyState');
   const admin = currentUser && currentUser.role === 'admin';
+
   if (!filtered.length) { grid.innerHTML=''; empty.style.display='block'; }
   else {
     empty.style.display = 'none';
     grid.innerHTML = filtered.map(l => `
-      <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="link-card">
-        <div class="card-icon" style="background:${CAT_COLORS[l.cat]||'#4f8ef7'}22">${l.icon||'🔗'}</div>
-        ${admin ? `<button class="card-del" onclick="delLink(event,'${l.id}')">✕ Eliminar</button>` : ''}
-        <div>
-          <div class="card-title">${l.name}</div>
-          <div class="card-desc">${l.desc||''}</div>
-        </div>
-        <div class="card-footer">
-          <span class="card-tag">${l.cat}</span>
-          <span class="card-arrow">↗</span>
-        </div>
-      </a>`).join('');
+      <div class="link-card">
+        ${admin ? `
+          <div class="card-actions">
+            <button class="card-btn edit" onclick="openEditModal('${l.id}')">✏️ Editar</button>
+            <button class="card-btn del"  onclick="delLink('${l.id}')">✕ Eliminar</button>
+          </div>` : ''}
+        <a href="${l.url}" target="_blank" rel="noopener noreferrer" style="display:flex;flex-direction:column;gap:.8rem;text-decoration:none;color:inherit;flex:1;">
+          <div class="card-icon" style="background:${CAT_COLORS[l.cat]||'#4f8ef7'}22">${l.icon||'🔗'}</div>
+          <div>
+            <div class="card-title">${l.name}</div>
+            <div class="card-desc">${l.desc||''}</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-tag">${l.cat}</span>
+            <span class="card-arrow">↗</span>
+          </div>
+        </a>
+      </div>`).join('');
   }
   document.getElementById('statTotal').textContent  = allLinks.length;
   document.getElementById('statForm').textContent   = allLinks.filter(l=>l.cat==='formularios').length;
@@ -450,29 +453,69 @@ function renderLinks() {
   document.getElementById('statOtros').textContent  = allLinks.filter(l=>l.cat==='otros').length;
 }
 
-window.delLink = async function(e, id) {
-  e.preventDefault(); e.stopPropagation();
-  if (confirm('¿Eliminar este enlace?')) await deleteDoc(doc(db, 'links', id));
+window.delLink = async function(id) {
+  if (confirm('¿Eliminar este enlace?')) await deleteDoc(doc(db,'links',id));
 };
 
-/* Modal */
-window.openModal  = () => { document.getElementById('modalOverlay').classList.add('open'); document.getElementById('mName').focus(); };
-window.closeModal = () => {
-  document.getElementById('modalOverlay').classList.remove('open');
+/* ══ MODAL AÑADIR / EDITAR ══ */
+window.openModal = function() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = '➕ Nuevo enlace';
+  document.getElementById('btnModalSave').textContent = 'Guardar';
   ['mName','mUrl','mDesc','mIcon'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('mCat').value = 'formularios';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('mName').focus();
 };
-window.addLinkModal = async function() {
+
+window.openEditModal = function(id) {
+  const link = allLinks.find(l => l.id === id);
+  if (!link) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent     = '✏️ Editar enlace';
+  document.getElementById('btnModalSave').textContent   = 'Actualizar';
+  document.getElementById('mName').value  = link.name  || '';
+  document.getElementById('mUrl').value   = link.url   || '';
+  document.getElementById('mDesc').value  = link.desc  || '';
+  document.getElementById('mCat').value   = link.cat   || 'formularios';
+  document.getElementById('mIcon').value  = link.icon  || '';
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('mName').focus();
+};
+
+window.closeModal = function() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  editingId = null;
+};
+
+window.saveLink = async function() {
   const name = document.getElementById('mName').value.trim();
   const url  = document.getElementById('mUrl').value.trim();
   if (!name || !url) { alert('El nombre y la URL son obligatorios'); return; }
   const btn = document.getElementById('btnModalSave');
-  btn.disabled=true; btn.textContent='Guardando...';
+  btn.disabled = true; btn.textContent = 'Guardando...';
+  const data = {
+    name, url,
+    desc: document.getElementById('mDesc').value.trim(),
+    cat:  document.getElementById('mCat').value,
+    icon: document.getElementById('mIcon').value.trim() || '🔗',
+  };
   try {
-    await addDoc(collection(db,'links'), { name, url, desc:document.getElementById('mDesc').value.trim(), cat:document.getElementById('mCat').value, icon:document.getElementById('mIcon').value.trim()||'🔗', createdAt:serverTimestamp() });
+    if (editingId) {
+      await updateDoc(doc(db,'links',editingId), data);
+    } else {
+      await addDoc(collection(db,'links'), { ...data, createdAt: serverTimestamp() });
+    }
     closeModal();
-  } finally { btn.disabled=false; btn.textContent='Guardar'; }
+  } catch(e) {
+    alert('Error al guardar: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = editingId ? 'Actualizar' : 'Guardar';
+  }
 };
 
+/* ══ ADMIN: AÑADIR ENLACE ══ */
 window.addLinkAdmin = async function() {
   const name = document.getElementById('aName').value.trim();
   const url  = document.getElementById('aUrl').value.trim();
@@ -483,11 +526,20 @@ window.addLinkAdmin = async function() {
   const btn = document.getElementById('btnAddLink');
   btn.disabled=true; btn.textContent='Guardando...';
   try {
-    await addDoc(collection(db,'links'), { name, url, desc:document.getElementById('aDesc').value.trim(), cat:document.getElementById('aCat').value, icon:document.getElementById('aIcon').value.trim()||'🔗', createdAt:serverTimestamp() });
-    ['aName','aUrl','aDesc','aIcon'].forEach(id=>document.getElementById(id).value='');
+    await addDoc(collection(db,'links'), {
+      name, url,
+      desc: document.getElementById('aDesc').value.trim(),
+      cat:  document.getElementById('aCat').value,
+      icon: document.getElementById('aIcon').value.trim() || '🔗',
+      createdAt: serverTimestamp()
+    });
+    ['aName','aUrl','aDesc','aIcon'].forEach(id => document.getElementById(id).value='');
     ok.style.display='block'; setTimeout(()=>ok.style.display='none',3000);
-  } catch(e) { err.textContent='❌ Error al guardar'; err.style.display='block'; }
-  finally { btn.disabled=false; btn.textContent='Guardar enlace'; }
+  } catch(e) {
+    err.textContent='❌ Error al guardar'; err.style.display='block';
+  } finally {
+    btn.disabled=false; btn.textContent='Guardar enlace';
+  }
 };
 
 /* ══ USERS ══ */
@@ -501,7 +553,7 @@ async function loadUsers() {
     return `
       <div class="user-row">
         <div class="user-info">
-          <div class="user-avatar">${u.username[0].toUpperCase()}</div>
+          <div class="user-avatar">${(u.username||'?')[0].toUpperCase()}</div>
           <div>
             <div class="u-name">${u.username}</div>
             <div class="u-role">${u.role==='admin'?'Administrador':'Usuario'}</div>
@@ -526,18 +578,20 @@ window.addUser = async function() {
   const btn = document.getElementById('btnCreateUser');
   btn.disabled=true; btn.textContent='Creando...';
   try {
-    // Verificar si ya existe
     const q    = query(collection(db,'users'), where('username','==',username));
     const snap = await getDocs(q);
     if (!snap.empty) { err.textContent='❌ Ese usuario ya existe'; err.style.display='block'; return; }
     const uid = username.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now();
-    await setDoc(doc(db,'users', uid), { username, password, role, createdAt: serverTimestamp() });
+    await setDoc(doc(db,'users',uid), { username, password, role, createdAt: serverTimestamp() });
     document.getElementById('newUsername').value='';
     document.getElementById('newPassword').value='';
     ok.style.display='block'; setTimeout(()=>ok.style.display='none',3000);
     loadUsers();
-  } catch(e) { err.textContent='❌ Error al crear usuario'; err.style.display='block'; }
-  finally { btn.disabled=false; btn.textContent='Crear usuario'; }
+  } catch(e) {
+    err.textContent='❌ Error al crear usuario'; err.style.display='block';
+  } finally {
+    btn.disabled=false; btn.textContent='Crear usuario';
+  }
 };
 
 window.delUser = async function(id) {
@@ -548,7 +602,9 @@ window.delUser = async function(id) {
 /* ══ KEYBOARD ══ */
 document.getElementById('inputPass').addEventListener('keydown', e => { if(e.key==='Enter') window.doLogin(); });
 document.getElementById('inputUser').addEventListener('keydown', e => { if(e.key==='Enter') window.doLogin(); });
-document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target===document.getElementById('modalOverlay')) window.closeModal(); });
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) window.closeModal();
+});
 </script>
 </body>
 </html>
